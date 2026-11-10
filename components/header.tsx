@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { ArrowUpRight, Globe2, MapPin, Menu, Phone, Plane } from "lucide-react";
+import { ArrowUpRight, MapPin, Menu, Phone } from "lucide-react";
 import { phoneNumbers } from "@/lib/content";
 
 export function Header() {
@@ -12,7 +12,7 @@ export function Header() {
     window.addEventListener("scroll", update, { passive: true });
     return () => window.removeEventListener("scroll", update);
   }, []);
-  return <header className={`site-header${scrolled ? " is-scrolled" : ""}`}><Link href="/" className="brand-lockup" aria-label="EVASIA TRAVEL & CONSULTING, accueil"><span className="brand-symbol" aria-hidden="true"><Globe2 size={34}/><Plane size={15}/></span><span className="brand-wordmark"><strong>EVASIA</strong><small>TRAVEL & CONSULTING</small></span></Link><nav className="main-nav" aria-label="Navigation principale"><Link href="/destinations">Destinations</Link><Link href="/services">Nos services</Link><Link href="/a-propos">À propos</Link></nav><Link className="header-cta" href="/contact">Parlons de votre projet <ArrowUpRight size={16}/></Link><Link className="mobile-menu" href="/destinations" aria-label="Ouvrir les destinations"><Menu size={22}/></Link></header>;
+  return <header className={`site-header${scrolled ? " is-scrolled" : ""}`}><Link href="/" className="official-brand header-brand" aria-label="Logo officiel EVASIA TRAVEL & CONSULTING — Voyagez. Découvrez. Explorez. — Accueil"/><nav className="main-nav" aria-label="Navigation principale"><Link href="/destinations">Destinations</Link><Link href="/services">Nos services</Link><Link href="/a-propos">À propos</Link></nav><Link className="header-cta" href="/contact">Parlons de votre projet <ArrowUpRight size={16}/></Link><Link className="mobile-menu" href="/destinations" aria-label="Ouvrir les destinations"><Menu size={22}/></Link></header>;
 }
 
 export function Footer() {

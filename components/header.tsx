@@ -1,18 +1,28 @@
 "use client";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { ArrowUpRight, MapPin, Menu, Phone } from "lucide-react";
+import { ArrowUpRight, MapPin, Menu, Phone, X } from "lucide-react";
 import { phoneNumbers } from "@/lib/content";
 
 export function Header() {
   const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
   useEffect(() => {
     const update = () => setScrolled(window.scrollY > 24);
     update();
     window.addEventListener("scroll", update, { passive: true });
     return () => window.removeEventListener("scroll", update);
   }, []);
-  return <header className={`site-header${scrolled ? " is-scrolled" : ""}`}><Link href="/" className="official-brand header-brand" aria-label="Logo officiel EVASIA TRAVEL & CONSULTING — Voyagez. Découvrez. Explorez. — Accueil"/><nav className="main-nav" aria-label="Navigation principale"><Link href="/destinations">Destinations</Link><Link href="/services">Nos services</Link><Link href="/a-propos">À propos</Link></nav><Link className="header-cta" href="/contact">Parlons de votre projet <ArrowUpRight size={16}/></Link><Link className="mobile-menu" href="/destinations" aria-label="Ouvrir les destinations"><Menu size={22}/></Link></header>;
+  useEffect(() => {
+    if (!menuOpen) return;
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setMenuOpen(false);
+    };
+    document.addEventListener("keydown", closeOnEscape);
+    return () => document.removeEventListener("keydown", closeOnEscape);
+  }, [menuOpen]);
+  const closeMenu = () => setMenuOpen(false);
+  return <header className={`site-header${scrolled ? " is-scrolled" : ""}${menuOpen ? " menu-open" : ""}`}><Link href="/" className="official-brand header-brand" aria-label="Logo officiel EVASIA TRAVEL & CONSULTING — Voyagez. Découvrez. Explorez. — Accueil" onClick={closeMenu}/><nav className="main-nav" aria-label="Navigation principale"><Link href="/destinations">Destinations</Link><Link href="/services">Nos services</Link><Link href="/a-propos">À propos</Link></nav><Link className="header-cta" href="/contact">Parlons de votre projet <ArrowUpRight size={16}/></Link><button className="mobile-menu" type="button" aria-label={menuOpen ? "Fermer le menu" : "Ouvrir le menu"} aria-expanded={menuOpen} aria-controls="mobile-navigation" onClick={() => setMenuOpen(open => !open)}>{menuOpen ? <X size={21}/> : <Menu size={22}/>}</button>{menuOpen && <nav className="mobile-nav" id="mobile-navigation" aria-label="Navigation mobile"><Link href="/destinations" onClick={closeMenu}>Destinations <ArrowUpRight size={16}/></Link><Link href="/services" onClick={closeMenu}>Nos services <ArrowUpRight size={16}/></Link><Link href="/a-propos" onClick={closeMenu}>À propos <ArrowUpRight size={16}/></Link><Link className="mobile-nav-cta" href="/contact" onClick={closeMenu}>Parlons de votre projet <ArrowUpRight size={16}/></Link></nav>}</header>;
 }
 
 export function Footer() {
